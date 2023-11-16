@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <input id="title" type="text" th:value="${article.title}" class="form-control">
+        <textarea id="content" class="form-control" th:text="${article.content}"></textarea>
+        <input id="id" type="hidden" th:value="${article.id}">
+        <div class="text-center">
+            <button class="btn btn-primary" onClick="modify()">수정</button>
+        </div>
+    </div>
+    <script>
+        function modify(){
+            var title=document.getElementById("title").value
+            var content=document.getElementById("content").value
+            var id=document.getElementById("id").value
+            fetch("/api/articles/"+id,{
+                method:"PUT",
+                headers:{
+                    "Content-type":"application/json"
+                },
+                body:JSON.stringify({
+                    title:title,
+                    content:content
+                })
+            })
+            .then(function(){
+                location.href="/articles/"+id
+            })
+        }
+    </script>
+</body>
+</html>

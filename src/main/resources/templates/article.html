@@ -18,9 +18,26 @@
                         <p th:text="${article.content}"></p>
                     </section>
                 </article>
+                <a class="btn btn-primary" th:href="@{/articles/modify/{id}(id=${article.id}) }">수정</a>
+                <button class="btn btn-danger" onClick="remove()">삭제</button>
+                <input type="hidden" th:value="${article.id}" id="id">
             </div>
         </div>
 
     </div>
+    <script>
+        function remove(){
+            if(!confirm("정말 삭제하시겠습니까?")){
+                return
+            }
+            var id=document.getElementById("id").value
+            fetch("/api/articles/"+id,{
+                method:"DELETE"
+            })
+            .then(function(){
+                location.replace("/articles")
+            })
+        }
+    </script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 package kr.ac.mjc.blog.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import kr.ac.mjc.blog.domain.Article;
 import kr.ac.mjc.blog.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,13 @@ public class BlogViewController {
     }
 
     @GetMapping("/new-article")
-    public String newArticle(){
+    public String newArticle(HttpServletRequest httpServletRequest){
+        HttpSession session =httpServletRequest.getSession(true);
+        //세션에 저장된 사용자 id
+        String userId=(String)session.getAttribute("userId");
+        if(userId==null){   //로그인 되어있지 않을경우
+            return "login";
+        }
         return "newArticle";
     }
 
